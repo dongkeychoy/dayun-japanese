@@ -2,14 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { lessons } from '../public/lessons.js';
 class Element {
-  constructor() { this.value = 'day-01'; this.textContent = ''; this.hidden = false; this.style = {}; this.handlers = {}; this.children = []; this.dataset = {}; this.classList = { add() {} }; }
+  constructor() { this.value = 'day-01'; this.textContent = ''; this.hidden = false; this.style = {}; this.handlers = {}; this.children = []; this.dataset = {}; this.classList = { add() {}, remove() {}, contains() { return false; } }; }
   set innerHTML(s) { this.html = s; this.children = [...s.matchAll(/data-answer="(\d+)"/g)].map(m => { const e = new Element(); e.dataset.answer = m[1]; return e; }); }
   addEventListener(type, handler) { this.handlers[type] = handler; }
   setAttribute() {} focus() {} closest() { return this; }
 }
 test('complete learning flow and saved mission state', async () => {
   const elements = new Map();
-  globalThis.document = { getElementById(id) { if (!elements.has(id)) elements.set(id, new Element()); return elements.get(id); } };
+  globalThis.document = { addEventListener() {}, querySelector() { return new Element(); }, querySelectorAll() { return []; }, getElementById(id) { if (!elements.has(id)) elements.set(id, new Element()); return elements.get(id); } };
   globalThis.window = {};
   const storage = new Map(); globalThis.localStorage = { getItem: k => storage.get(k), setItem: (k, v) => storage.set(k, v) };
   await import('../public/app.js');

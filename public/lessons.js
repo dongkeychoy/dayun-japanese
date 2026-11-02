@@ -1,6 +1,7 @@
 // DAY 카드는 이 배열에 추가하세요. id는 한 번 정하면 바꾸지 않습니다.
 export const lessons = [{
   id: 'day-01', day: '01', verb: '行く', reading: 'いく', meaning: '가다', theme: '오늘은 어디로 가볼까?',
+  illustration: 'journey', scenes: ['school', 'park', 'stay', 'yesterday', 'school', 'park'],
   tip: '行く는 특별해요! て형은 行って, 과거형은 行った예요. 「行いて」가 되지 않아요.',
   forms: [
     { label: '기본형', japanese: '行く', reading: 'いく', meaning: '가다', sentence: '学校に行く。', kana: 'がっこうにいく。', translation: '학교에 가다.' },
