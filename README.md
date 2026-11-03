@@ -56,3 +56,6 @@ Save and Deploy를 누르면 Cloudflare가 pages.dev 주소를 발급합니다. 
 추가 DAY에는 `illustration`(SVG 파일명, 확장자 제외)과 `scenes`(예문 순서별 SVG 파일명 배열)를 선택적으로 지정할 수 있습니다. `public/`에 해당 그림을 추가하세요.
 
 v2 검증: Node 학습 흐름 테스트, 정적 빌드, Chromium 320/390/768px 가로 넘침 검사, 듣기 별/효과음 토글/6문제 정답/미션/새로고침 저장/도장 해제 검증 완료. 실제 기기 일본어 TTS 음질 및 효과음 청취는 기기 확인이 필요합니다.
+
+
+<!-- New LEVEL 1 redesign in progress; existing main unchanged. -->
