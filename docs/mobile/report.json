@@ -1,0 +1,168 @@
+{
+  "testedAt": "2026-11-07T09:50:46.570Z",
+  "url": "http://127.0.0.1:34683",
+  "browser": "156.0.8078.79",
+  "viewports": [
+    {
+      "viewport": "320x568",
+      "modes": "train:7 / sentence:7 / words:5 / quiz:7",
+      "layout": "pass",
+      "nativeAudioPlays": 25,
+      "celebrationAudio": {
+        "tones": 38,
+        "claps": 64,
+        "peak": 0.803128719329834,
+        "running": true
+      },
+      "wrongAnswer": "pass",
+      "scores": "100 / 86",
+      "touchTargets": "44px+",
+      "screenshots": 11
+    },
+    {
+      "viewport": "360x740",
+      "modes": "train:7 / sentence:7 / words:5 / quiz:7",
+      "layout": "pass",
+      "nativeAudioPlays": 25,
+      "celebrationAudio": {
+        "tones": 38,
+        "claps": 64,
+        "peak": 0.656398355960846,
+        "running": true
+      },
+      "wrongAnswer": "pass",
+      "scores": "100 / 86",
+      "touchTargets": "44px+",
+      "screenshots": 11
+    },
+    {
+      "viewport": "390x844",
+      "modes": "train:7 / sentence:7 / words:5 / quiz:7",
+      "layout": "pass",
+      "nativeAudioPlays": 25,
+      "celebrationAudio": {
+        "tones": 38,
+        "claps": 64,
+        "peak": 0.4627203643321991,
+        "running": true
+      },
+      "wrongAnswer": "pass",
+      "scores": "100 / 86",
+      "touchTargets": "44px+",
+      "screenshots": 11
+    },
+    {
+      "viewport": "430x932",
+      "modes": "train:7 / sentence:7 / words:5 / quiz:7",
+      "layout": "pass",
+      "nativeAudioPlays": 25,
+      "celebrationAudio": {
+        "tones": 38,
+        "claps": 64,
+        "peak": 0.740594744682312,
+        "running": true
+      },
+      "wrongAnswer": "pass",
+      "scores": "100 / 86",
+      "touchTargets": "44px+",
+      "screenshots": 11
+    }
+  ],
+  "audio": [
+    {
+      "path": "forms/base",
+      "duration": 0.7679818594104308,
+      "peak": 0.4181373715400696
+    },
+    {
+      "path": "sentences/base",
+      "duration": 2.711995464852608,
+      "peak": 0.5785442590713501
+    },
+    {
+      "path": "forms/polite",
+      "duration": 1.0799773242630386,
+      "peak": 0.497104287147522
+    },
+    {
+      "path": "sentences/polite",
+      "duration": 2.7599773242630388,
+      "peak": 0.6622314453125
+    },
+    {
+      "path": "forms/negative",
+      "duration": 1.0079818594104308,
+      "peak": 0.4847317934036255
+    },
+    {
+      "path": "sentences/negative",
+      "duration": 2.231995464852608,
+      "peak": 0.6577821969985962
+    },
+    {
+      "path": "forms/past",
+      "duration": 0.9599773242630385,
+      "peak": 0.5418074131011963
+    },
+    {
+      "path": "sentences/past",
+      "duration": 2.7359863945578233,
+      "peak": 0.6428462862968445
+    },
+    {
+      "path": "forms/pastnegative",
+      "duration": 1.367981859410431,
+      "peak": 0.5836044549942017
+    },
+    {
+      "path": "sentences/pastnegative",
+      "duration": 3.0239909297052154,
+      "peak": 0.7055741548538208
+    },
+    {
+      "path": "forms/te",
+      "duration": 0.9599773242630385,
+      "peak": 0.4628528654575348
+    },
+    {
+      "path": "sentences/te",
+      "duration": 3.095986394557823,
+      "peak": 0.5406059622764587
+    },
+    {
+      "path": "forms/teiru",
+      "duration": 1.175986394557823,
+      "peak": 0.5134589672088623
+    },
+    {
+      "path": "sentences/teiru",
+      "duration": 3.263990929705215,
+      "peak": 0.7295185327529907
+    },
+    {
+      "path": "words/polite",
+      "duration": 1.1039909297052155,
+      "peak": 0.7728771567344666
+    },
+    {
+      "path": "words/base",
+      "duration": 1.0079818594104308,
+      "peak": 0.7342586517333984
+    },
+    {
+      "path": "words/negative",
+      "duration": 0.8159863945578232,
+      "peak": 0.4170522689819336
+    },
+    {
+      "path": "words/past",
+      "duration": 0.9599773242630385,
+      "peak": 0.639069139957428
+    },
+    {
+      "path": "words/te",
+      "duration": 0.7919954648526077,
+      "peak": 0.5082732439041138
+    }
+  ]
+}

@@ -1,36 +1,125 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import { lessons } from '../public/lessons.js';
-class Element {
-  constructor() { this.value = 'day-01'; this.textContent = ''; this.hidden = false; this.style = {}; this.handlers = {}; this.children = []; this.dataset = {}; this.classList = { add() {}, remove() {}, contains() { return false; } }; }
-  set innerHTML(s) { this.html = s; this.children = [...s.matchAll(/data-answer="(\d+)"/g)].map(m => { const e = new Element(); e.dataset.answer = m[1]; return e; }); }
-  addEventListener(type, handler) { this.handlers[type] = handler; }
-  setAttribute() {} focus() {} closest() { return this; }
-}
-test('complete learning flow and saved mission state', async () => {
-  const elements = new Map();
-  globalThis.document = { addEventListener() {}, querySelector() { return new Element(); }, querySelectorAll() { return []; }, getElementById(id) { if (!elements.has(id)) elements.set(id, new Element()); return elements.get(id); } };
-  globalThis.window = {};
-  const storage = new Map(); globalThis.localStorage = { getItem: k => storage.get(k), setItem: (k, v) => storage.set(k, v) };
-  await import('../public/app.js');
-  const get = id => elements.get(id);
-  assert.equal(lessons[0].forms.length, 6);
-  assert.equal(get('verb').textContent, '行く');
-  get('dad-check').handlers.click(); assert.match(get('stamp').textContent, /세 가지/);
-  for (let i = 0; i < 6; i++) {
-    const chosen = get('answers').children.find(e => Number(e.dataset.answer) === (i === 0 ? 1 : i)) || get('answers').children.find(e => Number(e.dataset.answer) !== i);
-    get('answers').handlers.click({ target: chosen });
-    const score = get('score').textContent;
-    get('answers').handlers.click({ target: chosen }); assert.equal(get('score').textContent, score);
-    get('next').handlers.click();
+import test from "node:test";
+import assert from "node:assert/strict";
+import { access, readFile } from "node:fs/promises";
+import { lessons } from "../public/day01.js";
+
+const day = lessons[0];
+const expected = [
+  [
+    "기본형",
+    "行く",
+    "いく",
+    "가다",
+    "明日、公園に行く。",
+    "あした、こうえんに いく。",
+    "내일 공원에 가.",
+  ],
+  [
+    "정중형",
+    "行きます",
+    "いきます",
+    "가요",
+    "今日、学校に行きます。",
+    "きょう、がっこうに いきます。",
+    "오늘 학교에 가요.",
+  ],
+  [
+    "부정형",
+    "行かない",
+    "いかない",
+    "가지 않아",
+    "今日は塾に行かない。",
+    "きょうは じゅくに いかない。",
+    "오늘은 학원에 가지 않아.",
+  ],
+  [
+    "과거형",
+    "行った",
+    "いった",
+    "갔어",
+    "昨日、本屋に行った。",
+    "きのう、ほんやに いった。",
+    "어제 서점에 갔어.",
+  ],
+  [
+    "과거부정형",
+    "行かなかった",
+    "いかなかった",
+    "가지 않았어",
+    "昨日は学校に行かなかった。",
+    "きのうは がっこうに いかなかった。",
+    "어제는 학교에 가지 않았어.",
+  ],
+  [
+    "연결형",
+    "行って",
+    "いって",
+    "가서",
+    "駅に行って、友だちに会う。",
+    "えきに いって、ともだちに あう。",
+    "역에 가서 친구를 만나.",
+  ],
+  [
+    "진행형",
+    "行っている",
+    "いっている",
+    "다니고 있어",
+    "毎日、学校に行っている。",
+    "まいにち、がっこうに いっている。",
+    "매일 학교에 다니고 있어.",
+  ],
+];
+test("DAY 01 retains all seven requested conjugations and complete sentences", () => {
+  assert.equal(day.kanji, "行く");
+  assert.deepEqual(
+    day.forms.map((f) => [
+      f.name,
+      f.kanji,
+      f.jp,
+      f.ko,
+      f.full,
+      f.kana,
+      f.meaning,
+    ]),
+    expected,
+  );
+  for (const f of day.forms) {
+    assert.equal(f.prefix + f.kanji + f.suffix, f.full);
+    assert.equal(f.kanaPrefix + f.jp + f.kanaSuffix, f.kana);
   }
-  assert.equal(get('question').textContent, '6문제 중 5개 성공!');
-  assert.equal(JSON.parse(storage.get('dayun:day-01')).lastScore, 5);
-  get('retry').handlers.click(); assert.equal(get('quiz-count').textContent, '1 / 6');
-  for (let i = 0; i < 3; i++) get('missions').handlers.change({ target: { dataset: { mission: String(i) }, checked: true } });
-  get('dad-check').handlers.click(); assert.match(get('stamp').textContent, /확인 완료/);
-  get('day-select').handlers.change(); assert.match(get('stamp').textContent, /확인 완료/);
-  get('missions').handlers.change({ target: { dataset: { mission: '0' }, checked: false } });
-  assert.equal(get('stamp').textContent, '');
-  assert.equal(JSON.parse(storage.get('dayun:day-01')).stamped, false);
+});
+test("exactly five words reuse the matching full sentence, reading and translation", () => {
+  assert.deepEqual(
+    day.words.map((w) => [w.jp, w.kana, w.ko, w.sentenceId]),
+    [
+      ["学校", "がっこう", "학교", "polite"],
+      ["公園", "こうえん", "공원", "base"],
+      ["塾", "じゅく", "학원", "negative"],
+      ["本屋", "ほんや", "서점", "past"],
+      ["駅", "えき", "역", "te"],
+    ],
+  );
+  for (const w of day.words) {
+    const f = day.forms.find((f) => f.id === w.sentenceId);
+    assert.ok(f.full.includes(w.jp));
+    assert.ok(f.kana.includes(w.kana));
+    assert.ok(f.meaning);
+  }
+});
+test("all photos and nineteen bundled Japanese audio files exist", async () => {
+  await access(new URL("../public/" + day.image.slice(2), import.meta.url));
+  for (const w of day.words) {
+    await access(new URL("../public/" + w.image.slice(2), import.meta.url));
+    const audio = await readFile(
+      new URL(`../public/audio/words/${w.sentenceId}.mp3`, import.meta.url),
+    );
+    assert.ok(audio.length > 1000);
+  }
+  for (const f of day.forms)
+    for (const kind of ["forms", "sentences"]) {
+      const audio = await readFile(
+        new URL(`../public/audio/${kind}/${f.id}.mp3`, import.meta.url),
+      );
+      assert.ok(audio.length > 1000);
+    }
 });
